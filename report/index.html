@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Reporte de clientes</title>
+    <link rel="stylesheet" href="../resources/styles/bootstrap.min.css">
+    <link rel="stylesheet" href="../resources/fas/css/solid.min.css">
+    <script src="../resources/fas/js/all.min.js"></script>
+</head>
+
+<body>
+    <style>
+        body {
+            background: url("../resources/img/fondo2.jpg") center center fixed;
+            background-size: cover;
+        }
+
+        #form-group {
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            align-items: center;
+            margin: 5px;
+        }
+
+        .format{
+            color:grey;
+            font-size: 10px;
+        }
+    </style>
+    <script>
+        if (typeof (Storage !== "undefined")) {
+            if (sessionStorage.getItem('user') !== null) {
+
+            } else {
+                window.location.href = '../';
+            }
+
+            if (sessionStorage.getItem('permiso') == 3) {
+                alert("No tiene permisos para acceder a este modulo.");
+                window.location.href = "../payment/";
+            }
+        }
+
+
+    </script>
+    <!--Barra de navegacion-->
+    <nav class="navbar navbar-expand-md navbar-dark bg-primary">
+        <a href="#" class="navbar-brand">MariviGym</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../user/"><span class="fa fa-id-card-alt"></span>
+                        Usuario</a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="../client/"><span class="fa fa-user"></span> Clientes</a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="../payment/"><span class="fa fa-credit-card"></span>
+                        Pagos</a></li>
+                <li class="nav-item"><a class="nav-link" href="../training/"><span
+                            class="fa fa-running"></span>Entrenadores</a></li>
+                <li class="nav-item dropdown">
+
+                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button"><i
+                            class="fa fa-cogs"></i> Otros <span class="caret"></span></a>
+                    <ul class="dropdown-menu bg-primary">
+                        <li class="nav-item"><a href="../report/" class="nav-link"><span class="fa fa-signal"></span>
+                                Reportes</a></li>
+
+                        <li class="nav-item"><a href="../tools/" class="nav-link"><span class="fa fa-signal"></span>
+                                Herramientas</a></li>
+                        <li class="nav-item"><a href="../index.html" class="nav-link"><span class="fa fa-sign-out-alt"></span>
+                                Salir</a></li>
+
+                    </ul>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="#" id="opciones"><span
+                    class="fa fa-running"></span>Opciones</a></li>
+            </ul>
+        </div>
+
+    </nav>
+
+    <section class="p-4">
+        <!--Datos del cliente-->
+        <div class="modal-content" id="info-cliente">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        Datos - <span id="cliente1"></span>
+                    </h5>
+                    
+                    <button class="close" id="close-info">&times;</a>
+                </div>
+                <div class="modal-body">
+                    <div class="float-left ml-auto">
+                        <h4 class="d-inline">Cedula:</h4>
+                        <span style="font-weight: 400; font-size: 23px" id="cedula2"></span><br><br>
+                        <h4 class="d-inline">Fecha de pago:</h4>
+                        <span style="font-weight: 400; font-size: 23px" class="d-inline" id="fechaPago2"></span><br><br>
+                        <h4 class="d-inline">Fecha de Vencimiento:</h4>
+                        <span style="font-weight: 400; font-size: 23px" class="d-inline" id="fechaVencimiento2"></span><br><br>
+                        <h4 class="d-inline">Monto:</h4>
+                        <span style="font-weight: 400; font-size: 23px" class="d-inline" id="monto2"></span><br><br>
+                        <h4 class="d-inline">Metodo de pago:</h4>
+                        <span style="font-weight: 400; font-size: 23px" class="d-inline" id="metodo2"></span><br><br>
+                        <h4 class="d-inline">Divisa:</h4>
+                        <span style="font-weight: 400; font-size: 23px" class="d-inline" id="divisa2"></span><br><br>
+                        <h4 class="d-inline">Referencia:</h4>
+                        <span style="font-weight: 400; font-size: 23px" class="d-inline" id="referencia2"></span><br><br>
+                        <input type="hidden" id="cedulacliente">
+                        <button class="btn btn-primary" id="pdf4">Generar PDF</button>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="modal-dialog" id="report">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="title">Seleccione el tipo de reporte</h3>
+                        <button type="button" id="closemodal" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <select class="form-control" id="tipoReporte">
+                            <option value="0">Seleccione tipo de reporte</option>
+                            <option value="1">Pago</option>
+                            <option value="2">Cliente</option>
+                            <option value="3">Entrenador</option>
+                        </select>
+                        <div id="opcion"></div>
+                        <div id="data"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container bg-light p-4" id="content">
+                    <div class="" id="body"></div>
+            </div>
+
+            <!--Lista de clientes-->
+            <div class="modal fade" id="client-list">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">
+                                    Lista de clientes
+                                </h5>
+                                
+                                <a href="#formulario" class="close" data-toggle="modal" data-dismiss="modal" aria-hidden="true">&times;</a>
+                            </div>
+                            <div class="modal-body">
+                                    <br>
+                                    <select id="client-campo" class="form-control text-center">
+                                        <option value="nombre">Nombre</option>
+                                        <option value="apellido">Apellido</option>
+                                        <option value="cedula">Cedula</option>
+                                    </select>
+                                    <br>
+                                    <input type="text" placeholder="Ingrese el valor" class="form-control" id="client-valor">
+                                    <br>
+                                <table class="table table-bordered table-hover table-sm">
+                                    <thead>
+                                        <td>Nombre</td>
+                                        <td>Apellido</td>
+                                        <td>Cedula</td>
+                                    </thead>
+                                    <tbody id="tbody-client">
+                                    </tbody>
+                                    
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+
+            <!--Reporte de ultimos pagos de cliente-->
+            <div class="modal-content" id="reporteCliente">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            Ultimos pagos - <span id="cliente"></span>
+                        </h5>
+                        
+                        <button href="#" class="close" id="closeCliente">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                            <br>
+                        <table class="table table-bordered table-hover table-sm">
+                            <thead>
+                                <td>Monto</td>
+                                <td>Via de pago</td>
+                                <td>Fecha de pago</td>
+                                <td>Vencimiento</td>
+                            </thead>
+                            <tbody id="tbody-pay">
+                            </tbody>
+                            
+                        </table>
+                        <input type="hidden" id="idcliente">
+                        <button class="btn btn-primary" id="pdf3">Generar PDF</button>
+                    </div>
+                </div>
+
+
+            <div class="modal-content" id="ClienteEntrenador">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        Lista de clientes <span id="entrenador"></span>
+                    </h5>
+                    <button type="button" class="close" id="closeTraining">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <!--Boton-->
+                    <table class="table table-bordered table-hover table-sm">
+                        <thead>
+                            <td>Nombre</td>
+                            <td>Cedula</td>
+                            <td>Divisa</td>
+                            <td>tarifa</td>
+                            <td>Vencimiento</td>
+                        </thead>
+                        <tbody id="clientes"></tbody>
+                    </table>
+                    <input type="hidden" id="cedulaentrenador">
+                    <button class="btn btn-primary" id="pdf6">Generar PDF</button>
+                </div>
+            </div>
+
+            <div id="elementH"></div>
+
+            <div class="modal-content" id="unpay">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            Lista de clientes <span id="entrenador"></span>
+                        </h5>
+                        <button type="button" class="close" id="closeunpay">&times;</button>
+                    </div>
+                    <!--Boton-->
+                    <button class="btn btn-primary btn-sm" id="pdf5">Generar PDF</button><br>
+                    <div class="modal-body" id="tabla">
+                        <table class="table table-bordered table-hover table-sm">
+                            <thead>
+                                <td>Nombre</td>
+                                <td>Cedula</td>
+                                <td>Vencimiento</td>
+                            </thead>
+                            <tbody id="client-unpay"></tbody>
+                        </table>
+                        
+                    </div>
+                </div>
+
+                <div id="prueba"></div>
+
+
+
+
+
+
+    </section>
+    <script src="../resources/scripts/jquery-3.3.1.js"></script>
+    <script src="../resources/scripts/bootstrap.min.js"></script>
+    <script src="../resources/scripts/jsPDF-1.3.2/dist/jspdf.min.js"></script>
+    <script src="./main.js"></script>
+</body>
+
+</html>

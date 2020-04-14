@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MasterGym</title>
+    <link rel="stylesheet" href="./resources/styles/bootstrap.min.css">
+    <link rel="stylesheet" href="./login/base.css">
+    <link rel="stylesheet" href="./resources/fas/css/solid.min.css">
+    <script src="./resources/fas/js/all.min.js"></script>
+
+</head>
+<body>
+      
+            
+
+    <div class="modal-dialog text-center">
+        <div class="col-sm-8 main-section">
+            <div class="modal-content">
+                <div class="col-12 user-img">
+                    <img src="./resources/img/user.png" alt="avatar" style="width: 200px; height: 200px;">
+                </div>
+                <form class="col-12" id="form-login">
+                    <div class="form-group" id="user-group">
+                        <input type="text" class="form-control" placeholder="Nombre de usuario" id="user" style="color: whitesmoke;">
+                    </div>
+                    <div class="form-group" id="contraseña-group">
+                        <input type="password" class="form-control" placeholder="Contraseña" id="pass" style="color: whitesmoke;">
+                    </div>
+                    <input type="checkbox" style="width: 12px; height: 12px;" value="true" class="form-control d-inline" id="checkbox"><span style="color:whitesmoke">  Mostrar contraseña</span><br><br>
+                    <button type="button" class="btn btn-primary" id="btnSubmit"><i class="fas fa-sign-in-alt"></i>  Login</button>
+                    <div class="col-12 forgot">
+                        <a href="./pass/index.html">Recordar contraseña</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <script src="./resources/scripts/jquery-3.3.1.js"></script>
+    <script src="./resources/scripts/bootstrap.min.js"></script>
+    <script src="./login/app.js"></script>
+</body>
+</html>

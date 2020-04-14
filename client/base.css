@@ -1,0 +1,18 @@
+body{
+    background: url("../resources/img/fondo.jpg") center center fixed;
+    background-size: cover;
+}
+
+#form-group{
+    display:flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    margin:5px;
+    font-size: 10px ;
+}
+
+.format{
+    color:grey;
+    font-size: 10px;
+}

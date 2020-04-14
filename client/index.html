@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Clientes</title>
+    <link rel="stylesheet" href="./base.css">
+    <link rel="stylesheet" href="../resources/styles/bootstrap.min.css">
+    <link rel="stylesheet" href="../resources/fas/css/solid.min.css">
+    <script src="../resources/fas/js/all.min.js"></script>
+    <script>
+            if(typeof(Storage!=="undefined")){
+                if(sessionStorage.getItem('user')!==null){
+    
+                }else{
+                    window.location.href='../';
+                }
+            }
+    </script>
+</head>
+<body>
+ <!--Barra de navegacion-->
+ <nav class="navbar navbar-expand-md navbar-dark bg-primary">
+    <a href="#" class="navbar-brand">MariviGym</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item" id="btnUsuario"><a class="nav-link" href="../user/"><span class="fa fa-id-card-alt"></span>
+                    Usuario</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="../client/"><span class="fa fa-user"></span> Clientes</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="../payment/"><span class="fa fa-credit-card"></span>
+                    Pagos</a></li>
+            <li class="nav-item"><a class="nav-link" href="../training/"><span
+                        class="fa fa-running"></span>Entrenadores</a></li>
+            <li class="nav-item dropdown">
+
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button"><i
+                        class="fa fa-cogs"></i> Otros <span class="caret"></span></a>
+                <ul class="dropdown-menu bg-primary">
+                    <li class="nav-item" id="btnReporte"><a href="../report/" class="nav-link"><span class="fa fa-signal"></span>
+                            Reportes</a></li>
+
+                    <li class="nav-item" id="btnHerramienta"><a href="../tools/" class="nav-link"><span class="fa fa-signal"></span>
+                            Herramientas</a></li>
+                    <li class="nav-item"><a href="../index.html" class="nav-link"><span class="fa fa-sign-out-alt"></span>
+                            Salir</a></li>
+                    
+                </ul>
+            </li>
+            <li class="navbar-item"><a href="#col-client" data-toggle="modal" class="nav-link ml-auto"
+                    id="btnForm">Formulario</a></li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <form class="form-inline">
+                <div class="form-group">
+                    <span class="fa fa-search" style="color: whitesmoke"></span>&nbsp;
+                        <input type="text" placeholder="Cedula" class="form-control" id="buscar" >;
+                </div>
+            </form>
+        </ul>
+    </div>
+
+</nav>
+
+<!--Ventana emergente para eliminar cliente-->
+<div class="modal fade administrador" id="delete-client">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title">¿Estas seguro que desea eliminar el cliente y todos sus pagos?</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="idClient" readonly="readonly">
+                    <div class="float-right mr-auto">
+                        <button class="btn btn-sm btn-danger" id="btnEliminar" data-dismiss="modal" aria-hidden="true">Eliminar</button>
+                        <button class="btn btn-sm btn-secondary" id="btnVolver" data-dismiss="modal" aria-hidden="true">Volver</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--Ventana emergente para agregar/modificar cliente-->
+    <div class="modal fade" id="col-client">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><span class="opcion">Nuevo</span> cliente</h4>
+                    <button type="button" id="closemodal" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                        <form id="client-form">
+                                <input type="hidden" id="clientId" value="">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Nombre" id="nombre" maxlength="20" required pattern="[A-ZÁÉÍÓÚ][a-zA-ZáÁéÉíÍóÓúÚ]{2,19}">
+                                    <span class="format">Ej: 'Marcos'</span>
+                                </div>
+                                 <div class="form-group">
+                                     <input type="text" class="form-control" placeholder="Apellido" id="apellido" maxlength="20" required pattern="[A-ZÁÉÍÓÚ][a-zA-ZáÁéÉíÍóÓúÚ]{2,19}">
+                                     <span class="format">Ej: 'Alvarado'</span>
+                                </div>
+                                 <div class="form-group">
+                                     <select id="letra" class="form-control d-inline" style="width: 7%">
+                                         <option value="V-">V-</option>
+                                         <option value="E-">E-</option>
+                                    </select>
+                                    <input type="text"  class="form-control d-inline" placeholder="Cedula" id="cedula" style="width: 92%" maxlength="9" required pattern="[0-9]{7,9}">
+                                    <span class="format">Ej: '24623748'</span>
+                                </div>
+                                <div class="form-group">
+                                        <select id="codigo" class="form-control d-inline" style="width: 10%">
+                                                <option value="0414-">0414-</option>
+                                                <option value="0424-">0424-</option>
+                                                <option value="0416-">0416-</option>
+                                                <option value="0426-">0426-</option>
+                                                <option value="0412-">0412-</option>
+                                           </select>
+                                           <input type="tel" class="form-control d-inline" placeholder="Telefono" id="telefono" style="width: 85%" maxlength="7" pattern="[0-9]{7}" required><br>
+                                           <span class="format">Ej: '6609538'</span>
+                                </div>
+                                <div class="form-group">
+                                     <input type="email" class="form-control" placeholder="Correo" id="correo" maxlength="30" required>
+                                     <span class="format">Ej: 'example@dominio.com'</span>
+                                </div>
+                                 <div class="form-group">
+                                     <input type="text" class="form-control" placeholder="Direccion" id="direccion" maxlength="50" required>
+                                     <span class="format">Ej: 'Av 8 con Calle 70'</span>
+                                    </div>
+                                    <button class="btn btn-primary btn-block text-center" type="submit"><span class="opcion">Guardar</span> cliente</button>
+                                    <button class="btn btn-success  btn-block text-center" type="reset" id='limpiar'>Limpiar</button>
+                            </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <!--Tabla de datos-->
+    <div class="align-items-center my-4" id="form-group">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-body" id="client-result">
+                    <div>
+                        <table class="table table-bordered table-hover table-sm" style="font-size: 12px"id="table-id">
+                            <thead>
+                                <tr class="text-center" style="font-weight: 700">
+                                    <td>Nombre</td>
+                                    <td>Apellido</td>
+                                    <td>Cedula</td>
+                                    <td>Telefono</td>
+                                    <td>Correo</td>
+                                    <td>Direccion</td>
+                                    <td>Accion</td>
+                                </tr>
+                            </thead>
+                            <tbody id="clients">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+        </div>
+    </div>
+ 
+    <!--Tabla de los ultimos pagos-->
+    <div class="modal fade" id="pay-client">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        Ultimos pagos - <span id="cliente"></span>
+                    </h5>
+                    
+                    <a href="#formulario" class="close" data-toggle="modal" data-dismiss="modal" aria-hidden="true">&times;</a>
+                </div>
+                <div class="modal-body">
+                        <br>
+                    <table class="table table-bordered table-hover table-sm">
+                        <thead>
+                            <td>Monto</td>
+                            <td>Via de pago</td>
+                            <td>Fecha de pago</td>
+                            <td>Vencimiento</td>
+                            <td>Accion</td>
+                        </thead>
+                        <tbody id="tbody-pay">
+                        </tbody>
+                        
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Vista individual del cliente y ultimo pago-->
+    <div class="modal fade" id="view-client">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        Datos - <span id="cliente1"></span>
+                    </h5>
+                    
+                    <a href="#formulario" class="close" data-toggle="modal" data-dismiss="modal" aria-hidden="true">&times;</a>
+                </div>
+                <div class="modal-body">
+                    <div class="float-left ml-auto">
+                        <h4 class="d-inline">Cedula:</h4>
+                        <span style="font-weight: 400; font-size: 23px" id="cedula2"></span><br><br>
+                        <h4 class="d-inline">Fecha de pago:</h4>
+                        <span style="font-weight: 400; font-size: 23px" class="d-inline" id="fechaPago2"></span><br><br>
+                        <h4 class="d-inline">Fecha de Vencimiento:</h4>
+                        <span style="font-weight: 400; font-size: 23px" class="d-inline" id="fechaVencimiento2"></span><br><br>
+                        <h4 class="d-inline">Monto:</h4>
+                        <span style="font-weight: 400; font-size: 23px" class="d-inline" id="monto2"></span><br><br>
+                        <h4 class="d-inline">Metodo de pago:</h4>
+                        <span style="font-weight: 400; font-size: 23px" class="d-inline" id="metodo2"></span><br><br>
+                        <h4 class="d-inline">Divisa:</h4>
+                        <span style="font-weight: 400; font-size: 23px" class="d-inline" id="divisa2"></span><br><br>
+                        <h4 class="d-inline">Referencia:</h4>
+                        <span style="font-weight: 400; font-size: 23px" class="d-inline" id="referencia2"></span><br><br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="../resources/scripts/jquery-3.3.1.js"></script>
+    <script src="../resources/scripts/bootstrap.min.js"></script>
+    <script src="./main.js"></script>
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Usuarios</title>
+    <link rel="stylesheet" href="../resources/styles/bootstrap.min.css">
+    <link rel="stylesheet" href="./base.css">
+    <link rel="stylesheet" href="../resources/fas/css/solid.min.css">
+    <script src="../resources/fas/js/all.min.js"></script>
+   <script>
+        if(typeof(Storage!=="undefined")){
+            if(sessionStorage.getItem('user')!==null){
+
+            }else{
+                window.location.href='../';
+            }
+
+            if(sessionStorage.getItem('permiso')!=1){
+                alert("No tiene permisos para acceder a este modulo.");
+                window.location.href="../payment/";
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-primary">
+        <a href="#" class="navbar-brand">MariviGym</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <div id="user">   
+                <li class="nav-item"><a class="nav-link" href="../user/"><span class="fa fa-id-card-alt"></span>
+                    Usuario</a>
+                </li>
+                </div>
+                <li class="nav-item"><a class="nav-link" href="../client/"><span class="fa fa-user"></span> Clientes</a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="../payment/"><span class="fa fa-credit-card"></span>
+                        Pagos</a></li>
+                <li class="nav-item"><a class="nav-link" href="../training/"><span
+                            class="fa fa-running"></span>Entrenadores</a></li>
+                <li class="nav-item dropdown">
+
+                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button"><i
+                            class="fa fa-cogs"></i> Otros <span class="caret"></span></a>
+                    <ul class="dropdown-menu bg-primary">
+                        <li class="nav-item"><a href="../report/" class="nav-link"><span class="fa fa-signal"></span>
+                                Reportes</a></li>
+
+                        <li class="nav-item"><a href="../tools/" class="nav-link">
+                                Herramientas</a></li>
+                        <li class="nav-item"><a href="../index.html" class="nav-link"><span
+                                    class="fa fa-sign-out-alt"></span>
+                                Salir</a></li>
+                    </ul>
+                </li>
+                <li class="navbar-item"><a href="#formulario" data-toggle="modal" class="nav-link ml-auto"
+                        id="btnForm">Formulario</a></li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <span class="fa fa-search" style="color: whitesmoke"></span>&nbsp;
+                        <input type="text" class="form-control" id="buscar" placeholder="Usuario">;
+                    </div>
+                </form>
+            </ul>
+        </div>
+
+    </nav>
+
+    <!-- Agregar usuario-->
+    <div class="modal fade" id="formulario">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><span class="opcion">Nuevo</span> usuario</h4>
+                    <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true" id="close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="user-form">
+                        <input type="hidden" id="id-user" value="">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Usuario" id="usuario" maxlength="15" required pattern="[a-zA-Z][a-zA-Z0-9]{2,14}">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" placeholder="Contraseña" id="pass" maxlength="13" required>
+                            <input type="checkbox" style="width: 12px; height: 12px;" value="true" class="form-control d-inline" id="checkbox"><span style="color:black">  Mostrar contraseña</span><br><br>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" id="nivel" style="width: 250px;" required>
+                                <option value="0">Nivel de usuario</option>
+                                <option value="3">Cajero</option>
+                                <option value="2">Encargado</option>
+                                <option value="1">Administrador</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select id="pregunta1" class="form-control">
+                                <option value="0">Pregunta #1</option>
+                                <option value="1">¿Nombre de mi canción favorita?</option>
+                                <option value="2">¿Segundo nombre de mi mamá?</option>
+                                <option value="3">¿Mejor amigo de la infancia?</option>
+                                <option value="4">¿Nombre del primer colegio de primaria?</option>
+                                <option value="5">¿Profesor favorito?</option>
+                                <option value="6">¿Carrera siempre deseada de ejercer?</option>
+                                <option value="7">¿Nombre de la primera pareja?</option>
+                                <option value="8">¿Película favorita?</option>
+                            </select>
+                            <input type="text" id="respuesta1" placeholder="Respuesta #1" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <select id="pregunta2" class="form-control">
+                                    <option value="0">Pregunta #2</option>
+                                <option value="1">¿Nombre de mi canción favorita?</option>
+                                <option value="2">¿Segundo nombre de mi mamá?</option>
+                                <option value="3">¿Mejor amigo de la infancia?</option>
+                                <option value="4">¿Nombre del primer colegio de primaria?</option>
+                                <option value="5">¿Profesor favorito?</option>
+                                <option value="6">¿Carrera siempre deseada de ejercer?</option>
+                                <option value="7">¿Nombre de la primera pareja?</option>
+                                <option value="8">¿Película favorita?</option>
+                            </select>
+                            <input type="text" id="respuesta2" placeholder="Respuesta #2" class="form-control" required>
+                        </div>
+                        </br>
+                        <button class="btn btn-primary btn-block text-center" type="submit" 
+                        id="btnGuardar"><span class="opcion">Registrar</span> usuario</button>
+                        <button class="btn btn-success  btn-block text-center" type="button"
+                            id='limpiar'>Limpiar</button>
+                        </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Ventana emergente para eliminar usuario-->
+    <div class="modal fade" id="delete-user">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title">¿Estas seguro que desea eliminar al usuario?</h6>
+                    <a href="#" class="close" data-dismiss="modal" aria-hidden="true">&times;</a>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="idUser" readonly="readonly">
+                    <div class="float-right mr-auto">
+                        <button class="btn btn-sm btn-danger" id="btnEliminar" data-dismiss="modal" aria-hidden="true">Eliminar</button>
+                        <button class="btn btn-sm btn-secondary" id="btnVolver" data-dismiss="modal" aria-hidden="true">Volver</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <!--Tabla-->
+    <div class="row align-items-center my-4" id="form-group">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-body" id="user-result">
+                    <div>
+                        <table class="table table-bordered table-hover table-sm">
+                            <thead>
+                                <tr class="text-center">
+                                    <td>Usuario</td>
+                                    <td>Contraseña</td>
+                                    <td>Cargo</td>
+                                    <td>Accion</td>
+                                </tr>
+                            </thead>
+                            <tbody id="users">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="../resources/scripts/jquery-3.3.1.js"></script>
+    <script src="../resources/scripts/bootstrap.min.js"></script>
+    <script src="./main.js"></script>
+</body>
+
+</html>

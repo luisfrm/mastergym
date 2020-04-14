@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Recuperar Contraseña</title>
+    <link rel="stylesheet" href="../resources/styles/bootstrap.min.css">
+    <link rel="stylesheet" href="../login/base.css">
+    <link rel="stylesheet" href="../resources/fas/css/solid.min.css">
+    <script src="../resources/fas/js/all.min.js"></script>
+</head>
+
+<body>
+    <style>
+        #questions {
+            display: none;
+        }
+    </style>
+
+    <div class="modal-dialog text-center" id="checkUser">
+        <div class="col-sm-8 main-section">
+            <div class="modal-content">
+                <div class="col-12 user-img">
+                    <img src="../resources/img/Logo_marivi.jpg" alt="avatar" style="width: 200px; height: 200px;">
+                </div>
+                <form class="col-12 m-2" id="form-login">
+                    <div class="form-group" id="user-group">
+                        <input type="text" class="form-control" placeholder="Nombre de usuario" id="user" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="btnSubmit"><i class="fas fa-sign-in-alt"></i>
+                        Siguiente 
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-dialog text-center" id="questions">
+        <div class="col-sm-8 main-section">
+            <div class="modal-content">
+                <div id="form1">
+                <form class="col-12 m-2" id="comprobar">
+                    <input type="hidden" id="name">
+                    <div class="form-group">
+                        <label for="q1">
+                            <h4 class="text-white" id="q1"></h4>
+                        </label>
+                        <input type="text" class="form-control" placeholder="Respuesta" id="a1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="q2">
+                            <h4 class="text-white" id="q2"></h4>
+                        </label>
+                        <input type="text" class="form-control" placeholder="Respuesta" id="a2" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="btnCheck"><i class="fas fa-sign-in-alt"></i>
+                        Comprobar </button>
+                </form>
+                </div>
+                <form id="change" class="p-4">
+                    <div class="form-group">
+                        <input type="password" id="pass1" placeholder="Ingrese la contraseña" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="pass2" placeholder="Ingrese de nuevo la contraseña" required>                        
+                    </div>
+                    <button type="submit" class="btn btn-success">Cambiar contraseña</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="../resources/scripts/jquery-3.3.1.js"></script>
+    <script src="../resources/scripts/bootstrap.min.js"></script>
+    <script src="./app.js"></script>
+</body>
+
+</html>
