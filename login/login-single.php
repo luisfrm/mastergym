@@ -14,7 +14,4 @@ $result = mysqli_query($conn, $query) or die('Ha habido un error en la consulta:
     };
 
     echo json_encode($json);
-
-
-
 ?>

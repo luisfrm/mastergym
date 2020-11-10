@@ -121,17 +121,3 @@ CREATE TABLE cliente(
         ('admin', 1, 2),
         ('admin', 1, 3),
         ('admin', 1, 4);
-
-
-    CREATE TABLE oldData(
-	id INT AUTO_INCREMENT PRIMARY KEY,
-	user VARCHAR(13) NOT NULL,
-    pass VARCHAR(13) NOT NULL,
-    fecha DATE,
-    idUsuario INT NOT NULL,
-    CONSTRAINT fkusuario FOREIGN KEY(idUsuario) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE
-);
-
-    CREATE TRIGGER ins_old AFTER UPDATE ON usuario
-    FOR EACH ROW
-    INSERT INTO olddata(user, pass, fecha, idUsuario) VALUES(old.user, old.pass, date_add(CURRENT_DATE, INTERVAL 45 DAY), new.id);
