@@ -308,17 +308,47 @@ $(function(){
             let element=$(this)[0].parentElement.parentElement;
             let id=$(element).attr('clientid');
             $.get('./view-client.php', {id}, function(response){
-                let data=JSON.parse(response);
-                console.log(data);
-                $("#cliente1").html(data[0].nombre);
-                $("#cedula2").html(data[0].cedula);
-                $("#fechaPago2").html(data[0].fechaPago);
-                $("#fechaVencimiento2").html(data[0].fechaVencimiento);
-                $("#monto2").html(data[0].monto);
-                $("#tiempo2").html(data[0].tiempo);
-                $("#metodo2").html(data[0].viaPago);
-                $("#divisa2").html(data[0].divisa);
-                $("#referencia2").html(data[0].referencia);
+              let data=JSON.parse(response);
+              console.log(data);
+              $("#cliente1").html(data[0].nombre);
+              $("#cedula2").html(data[0].cedula);
+              $("#fechaPago2").html(data[0].fechaPago);
+              $("#fechaVencimiento2").html(data[0].fechaVencimiento);
+              $("#monto2").html(data[0].monto);
+              $("#tiempo2").html(data[0].tiempo);
+              $("#metodo2").html(data[0].viaPago);
+              $("#divisa2").html(data[0].divisa);
+              $("#referencia2").html(data[0].referencia);
             })
         });
+
+        $(document).on('change', '#ubicacion', ()=>{
+            const ubicacion = $('#ubicacion').val();
+            if (parseInt(ubicacion) > 5) {
+							$('#ala').addClass("d-none");
+							$('#ala').removeClass("d-inline");
+							console.log("funciona")
+            }else {
+							$('#ala').removeClass("d-none");
+							$('#ala').addClass("d-inline");
+							console.log("no funciona")
+						}
+				});
+				
+				$(document).on('change', '#archivo', ()=>{
+					const file = document.getElementById('archivo').files;
+					if (file.length > 0) {
+						let fileReader = new FileReader();
+
+						fileReader.onload = (e)=>{
+							document.getElementById("preview").setAttribute("src", e.target.result);
+						}
+
+						fileReader.readAsDataURL(file[0]);
+					}
+				})
+
+				function previewImage() {
+					
+				}
 });

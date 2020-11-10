@@ -92,49 +92,58 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title"><span class="opcion">Nuevo</span> cliente</h4>
+                    <h4 class="modal-title"><span class="opcion">Nuevo</span> producto</h4>
                     <button type="button" id="closemodal" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
                         <form id="client-form">
-                                <input type="hidden" id="clientId" value="">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Nombre" id="nombre" maxlength="20" required pattern="[A-ZÁÉÍÓÚ][a-zA-ZáÁéÉíÍóÓúÚ]{2,19}">
-                                    <span class="format">Ej: 'Marcos'</span>
-                                </div>
-                                 <div class="form-group">
-                                     <input type="text" class="form-control" placeholder="Apellido" id="apellido" maxlength="20" required pattern="[A-ZÁÉÍÓÚ][a-zA-ZáÁéÉíÍóÓúÚ]{2,19}">
-                                     <span class="format">Ej: 'Alvarado'</span>
-                                </div>
-                                 <div class="form-group">
-                                     <select id="letra" class="form-control d-inline" style="width: 7%">
-                                         <option value="V-">V-</option>
-                                         <option value="E-">E-</option>
-                                    </select>
-                                    <input type="text"  class="form-control d-inline" placeholder="Cedula" id="cedula" style="width: 92%" maxlength="9" required pattern="[0-9]{7,9}">
-                                    <span class="format">Ej: '24623748'</span>
-                                </div>
-                                <div class="form-group">
-                                        <select id="codigo" class="form-control d-inline" style="width: 10%">
-                                                <option value="0414-">0414-</option>
-                                                <option value="0424-">0424-</option>
-                                                <option value="0416-">0416-</option>
-                                                <option value="0426-">0426-</option>
-                                                <option value="0412-">0412-</option>
-                                           </select>
-                                           <input type="tel" class="form-control d-inline" placeholder="Telefono" id="telefono" style="width: 85%" maxlength="7" pattern="[0-9]{7}" required><br>
-                                           <span class="format">Ej: '6609538'</span>
-                                </div>
-                                <div class="form-group">
-                                     <input type="email" class="form-control" placeholder="Correo" id="correo" maxlength="30" required>
-                                     <span class="format">Ej: 'example@dominio.com'</span>
-                                </div>
-                                 <div class="form-group">
-                                     <input type="text" class="form-control" placeholder="Direccion" id="direccion" maxlength="50" required>
-                                     <span class="format">Ej: 'Av 8 con Calle 70'</span>
-                                    </div>
-                                    <button class="btn btn-primary btn-block text-center" type="submit"><span class="opcion">Guardar</span> cliente</button>
-                                    <button class="btn btn-success  btn-block text-center" type="reset" id='limpiar'>Limpiar</button>
+                              <input type="hidden" id="clientId" value="">
+                              <div class="form-group">
+                                  <input type="text" class="form-control" placeholder="Producto" id="producto" maxlength="20" required>
+                                  <span class="format">Ej: 'Monitor'</span>
+                              </div>
+                               <div class="form-group">
+                                   <input type="text" class="form-control" placeholder="Serial" id="apellido" maxlength="20" required>
+                              </div>
+                              <div class="form-group">
+                                <select id="categoria" class="form-control">
+                                  <option value="0">Categoria</option>
+                                  <option value="1">HMR1-Mobiliarios y oficina</option>
+                                  <option value="2">HMR2-Equipos de computacion</option>
+                                  <option value="3">HMR3-Articulos de oficina</option>
+                                  <option value="4">HMR4-Equipos medicos</option>
+                                  <option value="5">HMR5-Maquinaria de equipos</option>
+                                  <option value="6">HMR6-Vehiculos</option>
+                                </select>
+                              </div>
+                              <div class="form-group">
+                                <select id="ubicacion" style="width: 20%;" class="form-control d-inline">
+                                  <option value="1">Piso 1</option>
+                                  <option value="2">Piso 2</option>
+                                  <option value="3">Piso 3</option>
+                                  <option value="4">Piso 4</option>
+                                  <option value="5">Piso 5</option>
+                                  <option value="6">Azotea</option>
+                                  <option value="7">Semi-Sotano</option>
+                                  <option value="8">Sotano</option>
+                                </select>
+                                <select id="ala" style="width: 75%;" class="form-control d-inline">
+                                  <option value="1">Ala A</option>
+                                  <option value="2">Ala B</option>
+                                </select>
+                                <span class="format d-block">Nota: Sotano, Semi-Sotano y Azotea no poseen ala.</span>
+                              </div>
+                              <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Descripcion" id="descripcion" maxlength="50">
+                                <span class="format">Ej: 'Nota referente al articulo'</span>
+                              </div>
+                              <div class="form-group">
+                                <label for="archivo">Selecciona una imagen</label>
+                                <input type="file" class="form-control" id="archivo" accept="image/*">
+                                <img alt="No image" class="img-fluid mt-3" id="preview">
+                              </div>
+                                <button class="btn btn-primary btn-block text-center" type="submit"><span class="opcion">Guardar</span> producto</button>
+                                <button class="btn btn-success  btn-block text-center" type="reset" id='limpiar'>Limpiar</button>
                             </form>
                 </div>
             </div>
@@ -151,13 +160,13 @@
                         <table class="table table-bordered table-hover table-sm" style="font-size: 12px"id="table-id">
                             <thead>
                                 <tr class="text-center" style="font-weight: 700">
-                                    <td>Nombre</td>
-                                    <td>Apellido</td>
-                                    <td>Cedula</td>
-                                    <td>Telefono</td>
-                                    <td>Correo</td>
-                                    <td>Direccion</td>
-                                    <td>Accion</td>
+                                  <td>Producto</td>
+                                  <td>Serial</td>
+                                  <td>Categoria</td>
+                                  <td>Ubicacion</td>
+                                  <td>Descripcion<td>
+                                  <td>Imagen</td>
+                                  <td>Accion</td>
                                 </tr>
                             </thead>
                             <tbody id="clients">

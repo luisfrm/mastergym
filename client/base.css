@@ -1,9 +1,9 @@
-body{
-    background: url("../resources/img/fondo.jpg") center center fixed;
+body {
+    background: url("../resources/img/fondo-new.jpg") center center fixed;
     background-size: cover;
 }
 
-#form-group{
+#form-group {
     display:flex;
     justify-content: center;
     text-align: center;
@@ -12,7 +12,8 @@ body{
     font-size: 10px ;
 }
 
-.format{
+.format {
     color:grey;
     font-size: 10px;
+    margin-top: 0.5rem;
 }

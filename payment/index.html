@@ -1,23 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Pagos</title>
-    <link rel="stylesheet" href="../resources/styles/bootstrap.min.css">
-    <link rel="stylesheet" href="./base.css">
-    <link rel="stylesheet" href="../resources/fas/css/solid.min.css">
-    <script src="../resources/fas/js/all.min.js"></script>
-    <script>
-        if(typeof(Storage)!=="undefined"){
-                if(sessionStorage.getItem('user')!==null){
-    
-                }else{
-                    window.location.href='../';
-                }
-            }
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Ordenes de salida</title>
+  <link rel="stylesheet" href="../resources/styles/bootstrap.min.css">
+  <link rel="stylesheet" href="./base.css">
+  <link rel="stylesheet" href="../resources/fas/css/solid.min.css">
+  <script src="../resources/fas/js/all.min.js"></script>
+  <script>
+    if(typeof(Storage)!=="undefined"){
+      if(sessionStorage.getItem('user')!==null){
+      }else{
+        window.location.href='../';
+      }
+    }
+  </script>
 </head>
 <body>
     <!-- Barra de navegacion -->
@@ -254,16 +253,16 @@
                     <table class="table table-bordered table-hover table-sm">
                         <thead>
                             <tr class="text-center" style="font-weight: 700">
-                                    <td>Nombre</td>
-                                    <td>Apellido</td>
-                                    <td>Cedula</td>
-                                    <td>Monto</td>
-                                    <td>Via de pago</td>
-                                    <td>Divisa</td>
-                                    <td>Referencia</td>
-                                    <td>Fecha de pago</td>
-                                    <td>Fecha de vencimiento</td>
-                                    <td>Accion</td>
+                                  <td>Nombre</td>
+                                  <td>Apellido</td>
+                                  <td>Cedula</td>
+                                  <td>Monto</td>
+                                  <td>Via de pago</td>
+                                  <td>Divisa</td>
+                                  <td>Referencia</td>
+                                  <td>Fecha de pago</td>
+                                  <td>Fecha de vencimiento</td>
+                                  <td>Accion</td>
                             </tr>
                         </thead>
                         <tbody id="tbody" style="font-weight: 400"></tbody>
