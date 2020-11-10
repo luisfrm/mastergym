@@ -1,191 +1,187 @@
 $(function(){
-    let edit=false;
-    let permiso = parseInt(sessionStorage.getItem('permiso'));
-    let pagos={};
-    if(permiso==3){
-        console.log("Sesión iniciada como cajero.");
-        $("#btnUsuario").hide();
-        $("#btnReporte").hide();
-        $("#btnHerramienta").hide();
+  let edit=false;
+  let permiso = parseInt(sessionStorage.getItem('permiso'));
+  let pagos={};
+  if(permiso==3){
+      console.log("Sesión iniciada como cajero.");
+      $("#btnUsuario").hide();
+      $("#btnReporte").hide();
+      $("#btnHerramienta").hide();
+  }else if(permiso==2){
+      console.log("Sesión iniciada como encargado.");
+      $("#btnUsuario").hide();
+  }else{
+      console.log("Sesión iniciada como administrador.");
+	}
+	
+ 	$(document).on('click', "#btnForm", function(){
+    $(".opcion").html('Registrar');
+  });
 
-    }else if(permiso==2){
-        console.log("Sesión iniciada como encargado.");
-        $("#btnUsuario").hide();
-    }else{
-        console.log("Sesión iniciada como administrador.");
-    }
-
-   $(document).on('click', "#btnForm", function(){
-       $(".opcion").html('Registrar');
-   });
-
-    function fetchPays(){
-        $.ajax({
-            url:'pay-list.php',
-            type:'GET',
-            success:function(dts){
-                let template='';
-                dts = JSON.parse(dts);
-                pagos=dts;
-                dts.forEach(pay => {
-                    if(permiso!=3){
-                        template+=`
-                        <tr class="text-center" pay-id="${pay.id}">
-                        <td><a href="#formulario" data-toggle="modal" class="pay-item">${pay.nombre}</a></td>
-                        <td>${pay.apellido}</td>
-                        <td>${pay.cedula}</td>
-                        <td>${pay.monto}</td>
-                        <td>${pay.viaPago}</td>
-                        <td>${pay.divisa}</td>
-                        <td>${pay.referencia}</td>
-                        <td>${pay.fechaPago}</td>
-                        <td>${pay.fechaVencimiento}</td>
-                        <td><a href="#delete-pay" class="btn btn-danger btn-sm pay-delete" data-toggle="modal">Eliminar</a></td>
-                        </tr>
-                        `;
-                    }else{
-                        template+=`
-                        <tr class="text-center" pay-id="${pay.id}">
-                        <td>${pay.nombre}</td>
-                        <td>${pay.apellido}</td>
-                        <td>${pay.cedula}</td>
-                        <td>${pay.monto}</td>
-                        <td>${pay.viaPago}</td>
-                        <td>${pay.divisa}</td>
-                        <td>${pay.referencia}</td>
-                        <td>${pay.fechaPago}</td>
-                        <td>${pay.fechaVencimiento}</td>
-                        </tr>
-                        `; 
-                    }
-                });
-
-                $("#tbody").html(template);
-            }
+  function fetchPays(){
+    $.ajax({
+      url:'pay-list.php',
+      type:'GET',
+      success:function(dts){
+        let template='';
+        dts = JSON.parse(dts);
+        pagos=dts;
+        dts.forEach(pay => {
+          if(permiso!=3){
+            template+=`
+            <tr class="text-center" pay-id="${pay.id}">
+            <td><a href="#formulario" data-toggle="modal" class="pay-item">${pay.nombre}</a></td>
+            <td>${pay.apellido}</td>
+            <td>${pay.cedula}</td>
+            <td>${pay.monto}</td>
+            <td>${pay.viaPago}</td>
+            <td>${pay.divisa}</td>
+            <td>${pay.referencia}</td>
+            <td>${pay.fechaPago}</td>
+            <td>${pay.fechaVencimiento}</td>
+            <td><a href="#delete-pay" class="btn btn-danger btn-sm pay-delete" data-toggle="modal">Eliminar</a></td>
+            </tr>
+            `;
+          }else{
+            template+=`
+            	<tr class="text-center" pay-id="${pay.id}">
+            		<td>${pay.nombre}</td>
+            		<td>${pay.apellido}</td>
+            		<td>${pay.cedula}</td>
+            		<td>${pay.monto}</td>
+            		<td>${pay.viaPago}</td>
+            		<td>${pay.divisa}</td>
+            		<td>${pay.referencia}</td>
+            		<td>${pay.fechaPago}</td>
+            		<td>${pay.fechaVencimiento}</td>
+            	</tr>
+            `; 
+          }
         });
-    };
-    fetchPays();
+        $("#tbody").html(template);
+      }
+    });
+	};
+		
+	fetchPays();
+		
     //Modificar pago
-    $(document).on('click', '.pay-item', function(){
-            let element=$(this)[0].parentElement.parentElement;
-            let id=$(element).attr('pay-id');
-            $.get('pay-single.php', {id}, function(response){
-                pay=JSON.parse(response);
-                fechaPago=pay[0].fechaPago.split('-');
-                fechaVencimiento=pay[0].fechaVencimiento.split('-');
-                $('#paymentId').val(pay[0].id);
-                $('#idPago').val(pay[0].idPago);
-                $("#client-id").val(pay[0].idCliente);
-                $("#client-nombre").val(pay[0].nombre + " " + pay[0].apellido);
-                $("#monto").val(pay[0].monto);
-                $("#referencia").val(pay[0].referencia);
-                $('#divisa').val(pay[0].idDivisa);
-                $('#via').val(pay[0].idMetodo);
-                $('#mesPago').val(fechaPago[1]);
-                $('#mesVencimiento').val(fechaVencimiento[1]);
-                diaDePago();
-                diaDeVencimiento();
-                $('#diaPago').val(parseInt(fechaPago[2]));
-                $('#diaVencimiento').val(parseInt(fechaVencimiento[2]));
-                $('#idPay').val()
-                $(".opcion").html('Modificar');
-               });
-               edit=true;    
-        
+    $(document).on('click', '.pay-item', function() {
+      let element=$(this)[0].parentElement.parentElement;
+      let id=$(element).attr('pay-id');
+      $.get('pay-single.php', {id}, function(response){
+        pay=JSON.parse(response);
+        fechaPago=pay[0].fechaPago.split('-');
+        fechaVencimiento=pay[0].fechaVencimiento.split('-');
+        $('#paymentId').val(pay[0].id);
+        $('#idPago').val(pay[0].idPago);
+        $("#client-id").val(pay[0].idCliente);
+        $("#client-nombre").val(pay[0].nombre + " " + pay[0].apellido);
+        $("#monto").val(pay[0].monto);
+        $("#referencia").val(pay[0].referencia);
+        $('#divisa').val(pay[0].idDivisa);
+        $('#via').val(pay[0].idMetodo);
+        $('#mesPago').val(fechaPago[1]);
+        $('#mesVencimiento').val(fechaVencimiento[1]);
+        diaDePago();
+        diaDeVencimiento();
+        $('#diaPago').val(parseInt(fechaPago[2]));
+        $('#diaVencimiento').val(parseInt(fechaVencimiento[2]));
+        $('#idPay').val()
+        $(".opcion").html('Modificar');
+      });
+      edit=true;    
     });
 
     //Listado de clientes
     function fetchClient(){
-        let data={tipo:1}
-        $.ajax({
-            url:'../client/client-list.php',
-            data:data,
-            type:'GET',
-            success:function(response){
-                let template="";
-                let clients = JSON.parse(response);
-                clients.forEach(element => {
-                    template+=`<tr idclient='${element.id}'>
-                    <td><a href="#formulario" data-dismiss="modal" aria-hidden="true" data-toggle="modal" class="btnClient">${element.nombre}</a></td>
-                    <td>${element.apellido}</td>
-                    <td>${element.cedula}</td>
-                    </tr>
-                    `
-                });
-                $("#tbody-client").html(template);
-            }
-            
-        });
+      let data={tipo:1}
+      $.ajax({
+        url:'../client/client-list.php',
+        data:data,
+        type:'GET',
+        success:function(response){
+          let template="";
+          let clients = JSON.parse(response);
+          clients.forEach(element => {
+            template+=`<tr idclient='${element.id}'>
+            	<td><a href="#formulario" data-dismiss="modal" aria-hidden="true" data-toggle="modal" class="btnClient">${element.nombre}</a></td>
+            	<td>${element.apellido}</td>
+            	<td>${element.cedula}</td>
+            	</tr>
+            `
+          });
+          $("#tbody-client").html(template);
+        }
+          
+      });
     }
     fetchClient();
 
     $(document).on('click', '#btnEliminar', function(){
-        if (permiso<3) {
-            
-            let data={
-                id:$("#idPay").val()
-            }
-            $.post('pay-delete.php', data, function(response){
-                fetchPays();
-            })
-        }else{
-            alert("No tiene permiso para realizar esta acción.");
+      if (permiso<3) {
+        let data={
+            id:$("#idPay").val()
         }
-
-    })
+        $.post('pay-delete.php', data, function(response){
+            fetchPays();
+        })
+      }else{
+        alert("No tiene permiso para realizar esta acción.");
+      }
+    });
 
     $(document).on('click', '.pay-delete', function(){
-        let element=$(this)[0].parentElement.parentElement;
-        let id=$(element).attr('pay-id');
-        $("#idPay").val(id);
+      let element=$(this)[0].parentElement.parentElement;
+      let id=$(element).attr('pay-id');
+      $("#idPay").val(id);
     });
 
     $(document).on('click', '.btnClient', function() {
-        let element = $(this)[0].parentElement.parentElement;
-        let id = $(element).attr('idclient');
-        $.get('../client/client-single.php', {id}, function(response) {
-            let client = JSON.parse(response);
-            $("#client-id").val(client[0].id);
-            $("#client-nombre").val(client[0].nombre + " " + client[0].apellido);
-        });
-
+      let element = $(this)[0].parentElement.parentElement;
+      let id = $(element).attr('idclient');
+      $.get('../client/client-single.php', {id}, function(response) {
+        let client = JSON.parse(response);
+        $("#client-id").val(client[0].id);
+        $("#client-nombre").val(client[0].nombre + " " + client[0].apellido);
+      });
     })
 
     $(document).on('change', '#mesVencimiento', function() {
-        diaDeVencimiento();
+      diaDeVencimiento();
     })
 
     $(document).on('change', '#mesPago', function() {
-        diaDePago();
+      diaDePago();
     });
 
     function diaDePago() {
-        let template="<option value='00'>Dia</option>";
-        if($("#mesPago").val()=='01' || $("#mesPago").val()=='03' || $("#mesPago").val()=='05' || $("#mesPago").val()=='07' || $("#mesPago").val()=='08' || $("#mesPago").val()=='10' || $("#mesPago").val()=='12'){
-            for(let i = 1; i<=31; i++){
-                template+=`<option value="${i}">${i}</option>`
-            }
-        }else if($("#mesPago").val()=='02'){
-            for(let i = 1; i<=28; i++){
-                template+=`<option value="${i}">${i}</option>`
-            }
-        }else{
-            for(let i = 1; i<=30; i++){
-                template+=`<option value="${i}">${i}</option>`;
-            }
-        }
-        $("#diaPago").html(template);
+      let template="<option value='00'>Dia</option>";
+      if($("#mesPago").val()=='01' || $("#mesPago").val()=='03' || $("#mesPago").val()=='05' || $("#mesPago").val()=='07' || $("#mesPago").val()=='08' || $("#mesPago").val()=='10' || $("#mesPago").val()=='12'){
+        for(let i = 1; i<=31; i++){
+          template+=`<option value="${i}">${i}</option>`
+				}
+      }else if($("#mesPago").val()=='02'){
+          for(let i = 1; i<=28; i++){
+            template+=`<option value="${i}">${i}</option>`
+          }
+      }else{
+          for(let i = 1; i<=30; i++){
+            template+=`<option value="${i}">${i}</option>`;
+          }
+      }
+      $("#diaPago").html(template);
     }
 
     function diaDeVencimiento() {
         let template="<option>Dia</option>";
         if($("#mesVencimiento").val()=='01' || $("#mesVencimiento").val()=='03' || $("#mesVencimiento").val()=='05' || $("#mesVencimiento").val()=='07' || $("#mesVencimiento").val()=='08' || $("#mesVencimiento").val()=='10' || $("#mesVencimiento").val()=='12'){
             for(let i = 1; i<=31; i++){
-                template+=`<option>${i}</option>`
+              template+=`<option>${i}</option>`
             }
         }else if($("#mesVencimiento").val()=='02'){
             for(let i = 1; i<=28; i++){
-                template+=`<option>${i}</option>`
+              template+=`<option>${i}</option>`
             }
         }else{
             for(let i = 1; i<=30; i++){
