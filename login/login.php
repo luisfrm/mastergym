@@ -30,32 +30,7 @@ if(!empty($_POST['user']) and !empty($_POST['pass'])){
                 );
               }
               if(count($usuarios)>0){
-                //COMPROBAMOS SI EL USUARIO ESTÁ BLOQUEADO.
-                $intento=[];
-                $query="SELECT intento FROM usuario WHERE user='$user' LIMIT 1";
-                $userIsBlock=mysqli_query($conn, $query) or die("Ha habido un error en la consulta. #" . mysqli_errno($conn) . ": " . mysqli_error($conn));
-                while ($row=mysqli_fetch_array($userIsBlock)) {
-                    $intento[]=array(
-                        "intento"=>$row["intento"]
-                    );
-                }
-                $attemp=$intento[0]['intento'];
-                //----------------------------------------------------------------
-                if ($attemp<3) {
-                  //EN CASO DE NO ESTAR BLOQUEADO, ESTABLECEMOS EL NUMERO DE INTENTOS EN 0
-                  $query="UPDATE usuario SET intento=0 WHERE user='$user'";
-									$result=mysqli_query($conn, $query) or die("Ha habido un error en la consulta. #" . mysqli_errno($conn) . ": " . mysqli_error($conn));
-									echo json_encode($usuarios); //OPERACION EXITOSA
-                }else{
-                  echo "#401";
-                }
-              }else {
-                //COMPROBAMOS LOS INTENTOS DEL USUARIO.
-                $intento=[];
-                $query="SELECT intento FROM usuario WHERE user='$user' LIMIT 1";
-                $userIsBlock=mysqli_query($conn, $query) or die("Ha habido un error en la consulta. #" . mysqli_errno($conn) . ": " . mysqli_error($conn));
-                //ALMACENAMOS LOS INTENTOS EN UNA VARIABLE.
-                while ($row=mysqli_fetch_array($userIsBlock)) {
+      
                   $intento[]=array(
                       "intento"=>$row["intento"]
                   );
