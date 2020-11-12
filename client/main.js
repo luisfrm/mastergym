@@ -26,13 +26,13 @@ $(function(){
                     clients.forEach(client => {
                         if (permiso<3) {
                             template+=`
-                            <tr class="text-center" clientId="${client.id}">
-                            <td><a href="#col-client" data-toggle="modal" class='client-item'>${client.nombre}</a></td>
-                            <td><a href="#pay-client" data-toggle="modal" class="pays">${client.apellido}</a></td>
-                            <td>${client.cedula}</td>
-                            <td>${client.telefono}</td>
-                            <td>${client.correo}</td>
-                            <td>${client.direccion}</td>
+                            <tr class="text-center" productId="${client.id}">
+                            <td><a href="#col-client" data-toggle="modal" class='client-item'>${client.producto}</a></td>
+                            <td><a href="#pay-client" data-toggle="modal" class="pays">${client.serial}</a></td>
+                            <td>${client.categoria}</td>
+                            <td>${client.ubicacion}</td>
+                            <td>${client.descripcion}</td>
+                            <td>${client.archivo}</td>
                             <td>
                             <a class="btn btn-primary btn-sm client-view" href="#view-client" data-toggle="modal">Ver más</a>
                             <a class="btn btn-danger btn-sm client-delete" href="#delete-client" data-toggle="modal">Eliminar</a>
@@ -41,13 +41,13 @@ $(function(){
                             `
                         }else{
                             template+=`
-                            <tr class="text-center" clientId="${client.id}">
-                            <td>${client.nombre}</td>
-                            <td><a href="#pay-client" data-toggle="modal" class="pays">${client.apellido}</a></td>
-                            <td>${client.cedula}</td>
-                            <td>${client.telefono}</td>
-                            <td>${client.correo}</td>
-                            <td>${client.direccion}</td>
+                            <tr class="text-center" productId="${client.id}">
+                            <td>${client.producto}</td>
+                            <td><a href="#pay-client" data-toggle="modal" class="pays">${client.serial}</a></td>
+                            <td>${client.categoria}</td>
+                            <td>${client.ubicacion}</td>
+                            <td>${client.descripcion}</td>
+                            <td>${client.archivo}</td>
                             <td>
                             <a class="btn btn-primary btn-sm client-view" href="#view-client" data-toggle="modal">Ver más</a>
                             </td>
@@ -69,20 +69,16 @@ $(function(){
         //EVENTO PARA RELLENAR LA TABLA DE MODIFICACION DE CLIENTE -SOLO ADMINISTRADOR Y ENCARGADO-.
         $(document).on('click', '.client-item', function(){
             let element=$(this)[0].parentElement.parentElement;
-            let id = $(element).attr('clientId');
+            let id = $(element).attr('productId');
             $.get('client-single.php', {id}, function(response){
                 client=JSON.parse(response);
-                let cedula=client[0].cedula.split('-');
-                let telefono=client[0].telefono.split('-');
-                $('#clientId').val(client[0].id);
-                $('#nombre').val(client[0].nombre);
-                $('#apellido').val(client[0].apellido);
-                $('#letra').val(cedula[0]+'-');
-                $('#cedula').val(cedula[1]);
-                $('#codigo').val(telefono[0]+'-');
-                $('#telefono').val(telefono[1]);
-                $('#direccion').val(client[0].direccion);
-                $('#correo').val(client[0].correo);
+                let categoria=client[0].categoria;
+                let ubicacion=client[0].ubicacion;
+                $('#productId').val(client[0].id);
+                $('#producto').val(client[0].producto);
+                $('#serial').val(client[0].serial);
+                $('#ubicacion').val(client[0].ubicacion);
+                $('#descripcion').val(client[0].descripcion);
                 $('.opcion').html('Modificar');
             });
             edit=true;
@@ -92,7 +88,7 @@ $(function(){
         //EVENTO PARA REALIZAR ELIMINACIÓN. -SOLO ADMINISTRADOR Y ENCARGADO-
         $(document).on('click', '.client-delete', function(){
             let element = $(this)[0].parentElement.parentElement;
-            let id = $(element).attr('clientid');
+            let id = $(element).attr('productId');
             $("#idClient").val(id);
         });
         
@@ -128,18 +124,20 @@ $(function(){
         
         //ENVIO DE INFORMACIÓN AL SERVIDOR.
         $("#client-form").submit(function(e){
+            e.preventDefault();
             let url = edit===false ? 'client-add.php' : 'client-update.php';
             const data = {
-                id:$('#clientId').val(),
-                nombre:$('#nombre').val(),
-                apellido:$('#apellido').val(),
-                cedula:$('#letra').val() + $('#cedula').val(),
-                direccion:$('#direccion').val(),
-                correo:$('#correo').val(),
-                telefono:$("#codigo").val()+$('#telefono').val()
+                id:$('#productId').val(),
+                producto:$('#producto').val(),
+                serial:$('#serial').val(),
+                categoria:$('#categoria').val(),
+                ubicacion:$('#ubicacion').val(),
+                descripcion:$('#descripcion').val(),
+                archivo:$("#archivo")[0].files[0]
             };
+            
             console.log(data);
-            if(data.nombre!="" && data.apellido!="" && $('#cedula').val()!="" && data.correo!="" && data.telefono!="" && data.direccion!="" && ($('#cedula').val().length>6 && $('#cedula').val().length<10)){
+            if(data.producto!="" && data.serial!="" && $('#categoria').val()!="" && data.descripcion!="" && data.ubicacion!="" && data.ubicacion!="") {
                 $.post(url, data, function(response){
                     console.log(response);
         
@@ -150,8 +148,8 @@ $(function(){
                         fetchCliente();
                     }else{
                         let palabras=response.split(" ");
-                        if(palabras[4]=='key' && palabras[5]=="'cedula'"){
-                            alert("Error. La cedula ingresada ya está registrada en el sistema.");
+                        if(palabras[4]=='key' && palabras[5]=="'categoria'"){
+                            alert("Error. La categoria ingresada ya está registrada en el sistema.");
                         }else{
                             alert(response);
                         }
@@ -164,8 +162,8 @@ $(function(){
                         fetchCliente();
                     }else{
                         let palabras=response.split(" ");
-                        if(palabras[4]=='key' && palabras[5]=="'cedula'"){
-                            alert("Error. La cedula ingresada ya está registrada en el sistema.");
+                        if(palabras[4]=='key' && palabras[5]=="'categoria'"){
+                            alert("Error. La categoria ingresada ya está registrada en el sistema.");
                         }else{
                             alert(response);
                         }
@@ -177,7 +175,6 @@ $(function(){
             }else{
                 alert("Hay datos invalidos el registro/modificacion del cliente.");
             }
-            e.preventDefault();
         });
         
         //EVENTO PARA LLAMAR A LA FUNCIÓN LIMPIAR.
@@ -188,12 +185,12 @@ $(function(){
         
         //FUNCIÓN PARA REINICIAR LOS CAMPOS.
         function limpiar(){
-            $("#nombre").val('');
-            $("#apellido").val('');
-            $("#cedula").val('');
-            $("#correo").val('');
-            $("#telefono").val('');
-            $("#direccion").val('');
+            $("#producto").val('');
+            $("#serial").val('');
+            $("#categoria").val('');
+            $("#descripcion").val('');
+            $("#ubicacion").val('');
+            $("#ubicacion").val('');
             edit=false;
         };
 
@@ -202,7 +199,7 @@ $(function(){
         });
 
         $(document).on('keyup', '#buscar', function() {
-            let campo='cedula';
+            let campo='categoria';
             let valor=$("#buscar").val();
             if(valor==""){
                 fetchCliente();
@@ -217,13 +214,13 @@ $(function(){
                 clients.forEach(client => {
                     if (permiso<3) {
                         template+=`
-                        <tr class="text-center" clientId="${client.id}">
-                        <td><a href="#col-client" data-toggle="modal" class='client-item'>${client.nombre}</a></td>
-                        <td><a href="#pay-client" data-toggle="modal" class="pays">${client.apellido}</a></td>
-                        <td>${client.cedula}</td>
-                        <td>${client.telefono}</td>
-                        <td>${client.correo}</td>
-                        <td>${client.direccion}</td>
+                        <tr class="text-center" productId="${client.id}">
+                        <td><a href="#col-client" data-toggle="modal" class='client-item'>${client.producto}</a></td>
+                        <td><a href="#pay-client" data-toggle="modal" class="pays">${client.serial}</a></td>
+                        <td>${client.categoria}</td>
+                        <td>${client.ubicacion}</td>
+                        <td>${client.descripcion}</td>
+                        <td>${client.ubicacion}</td>
                         <td>
                         <a class="btn btn-primary btn-sm client-view" href="#view-client" data-toggle="modal">Ver más</a>
                         <a class="btn btn-danger btn-sm client-delete" href="#delete-client" data-toggle="modal">Eliminar</a>
@@ -232,13 +229,13 @@ $(function(){
                         `
                     }else{
                         template+=`
-                        <tr class="text-center" clientId="${client.id}">
-                        <td>${client.nombre}</td>
-                        <td><a href="#pay-client" data-toggle="modal" class="pays">${client.apellido}</a></td>
-                        <td>${client.cedula}</td>
-                        <td>${client.telefono}</td>
-                        <td>${client.correo}</td>
-                        <td>${client.direccion}</td>
+                        <tr class="text-center" productId="${client.id}">
+                        <td>${client.producto}</td>
+                        <td><a href="#pay-client" data-toggle="modal" class="pays">${client.serial}</a></td>
+                        <td>${client.categoria}</td>
+                        <td>${client.ubicacion}</td>
+                        <td>${client.descripcion}</td>
+                        <td>${client.ubicacion}</td>
                         <td>
                         <a class="btn btn-primary btn-sm client-view" href="#view-client" data-toggle="modal">Ver más</a>
                         </td>
@@ -253,7 +250,7 @@ $(function(){
 
         $(document).on('click', '.pays', function(){
             let element=$(this)[0].parentElement.parentElement;
-            let id=$(element).attr('clientId');
+            let id=$(element).attr('productId');
             let template="";
             $.get('pay-client.php', {id}, function(response){
                 console.log(response);
@@ -306,12 +303,12 @@ $(function(){
 
         $(document).on('click', '.client-view', function(){
             let element=$(this)[0].parentElement.parentElement;
-            let id=$(element).attr('clientid');
+            let id=$(element).attr('productId');
             $.get('./view-client.php', {id}, function(response){
               let data=JSON.parse(response);
               console.log(data);
               $("#cliente1").html(data[0].nombre);
-              $("#cedula2").html(data[0].cedula);
+              $("#categoria2").html(data[0].categoria);
               $("#fechaPago2").html(data[0].fechaPago);
               $("#fechaVencimiento2").html(data[0].fechaVencimiento);
               $("#monto2").html(data[0].monto);
@@ -336,15 +333,15 @@ $(function(){
 				});
 				
 				$(document).on('change', '#archivo', ()=>{
-					const file = document.getElementById('archivo').files;
-					if (file.length > 0) {
+					const file = document.getElementById('archivo').files[0];
+					if (file) {
 						let fileReader = new FileReader();
 
 						fileReader.onload = (e)=>{
 							document.getElementById("preview").setAttribute("src", e.target.result);
 						}
 
-						fileReader.readAsDataURL(file[0]);
+						fileReader.readAsDataURL(file);
 					}
 				})
 

@@ -1,11 +1,11 @@
-CREATE TABLE cliente(
+CREATE TABLE producto(
 	    id INT(11) PRIMARY KEY AUTO_INCREMENT,
-        nombre VARCHAR(20) NOT NULL,
-        apellido VARCHAR(20) NOT NULL,
-        cedula VARCHAR(11) UNIQUE NOT NULL,
-        telefono VARCHAR(12) NULL,
-        direccion VARCHAR(50) NULL,
-        correo VARCHAR(30)
+        producto VARCHAR(20) NOT NULL,
+        serial VARCHAR(20) NOT NULL,
+        categoria VARCHAR(11) UNIQUE NOT NULL,
+        ubicacion VARCHAR(12) NULL,
+        descripcion VARCHAR(50) NULL,
+        ruta VARCHAR(30)
 	);
 
     CREATE TABLE divisa(
